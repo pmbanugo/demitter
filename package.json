@@ -1,5 +1,6 @@
 {
   "name": "demitter",
+  "type": "module",
   "description": "Distributed Node.js Event Emitter",
   "scripts": {},
   "author": "Peter Mbanugo <oss@pmbanugo.me>",
@@ -12,5 +13,15 @@
     "event-emitter",
     "pub-sub",
     "pubsub"
-  ]
+  ],
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "emittery": "^1.2.0",
+    "msgpackr": "^1.11.5",
+    "pino": "^9.7.0",
+    "zeromq": "^6.5.0"
+  }
 }

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "_version": "24.0.0",
+  "include": ["./**/*.js"],
+  "exclude": ["node_modules", "dist", "bin"],
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "module": "nodenext",
+    "moduleResolution": "NodeNext",
+    "target": "es2024",
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+
+    // "verbatimModuleSyntax": true,
+    // "types": ["node"],
+
+    "strict": true,
+    // "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+
+    "lib": [
+      "es2024",
+      "ESNext.Array",
+      "ESNext.Collection",
+      "ESNext.Iterator",
+      "ESNext.AsyncIterable",
+      "ESNext.Promise"
+      // "ESNext.Decorators",
+      // "ESNext.Disposable"
+    ]
+  }
+}

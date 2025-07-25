@@ -1,0 +1,3 @@
+onlyBuiltDependencies:
+  - msgpackr-extract
+  - zeromq
