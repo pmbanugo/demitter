@@ -31,6 +31,11 @@
       "ESNext.Promise"
       // "ESNext.Decorators",
       // "ESNext.Disposable"
-    ]
+    ],
+
+    // for generating type declaration files
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationMap": true
   }
 }

@@ -3,7 +3,7 @@
   "type": "module",
   "description": "Distributed Node.js Event Emitter",
   "scripts": {},
-  "author": "Peter Mbanugo <oss@pmbanugo.me>",
+  "author": "Peter Mbanugo <pmbanugo.me>",
   "packageManager": "pnpm@10.13.1",
   "keywords": [
     "event",
