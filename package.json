@@ -1,0 +1,16 @@
+{
+  "name": "demitter",
+  "description": "Distributed Node.js Event Emitter",
+  "scripts": {},
+  "author": "Peter Mbanugo <oss@pmbanugo.me>",
+  "packageManager": "pnpm@10.13.1",
+  "keywords": [
+    "event",
+    "emitter",
+    "nodejs",
+    "eventemitter",
+    "event-emitter",
+    "pub-sub",
+    "pubsub"
+  ]
+}
