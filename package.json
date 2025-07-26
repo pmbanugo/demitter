@@ -2,7 +2,20 @@
   "name": "demitter",
   "type": "module",
   "description": "Distributed Node.js Event Emitter",
-  "scripts": {},
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsdown",
+    "build:watch": "tsdown --watch",
+    "prebuild": "rm -rf dist",
+    "pretest": "pnpm run build",
+    "test": "node --test dist/src/*.test.js",
+    "test:unit": "pnpm run build && node --test dist/src/distributed-emitter.test.js",
+    "test:integration": "pnpm run build && node --test dist/src/integration.test.js",
+    "start:forwarder": "node src/cli.js",
+    "example:basic": "pnpm run build && node dist/examples/basic-usage.js",
+    "example:errors": "pnpm run build && node dist/examples/error-handling.js"
+  },
   "author": "Peter Mbanugo <pmbanugo.me>",
   "packageManager": "pnpm@10.13.1",
   "keywords": [
@@ -16,10 +29,12 @@
   ],
   "devDependencies": {
     "@types/node": "^24.1.0",
+    "tsdown": "^0.13.0",
     "typescript": "^5.8.3"
   },
   "dependencies": {
     "emittery": "^1.2.0",
+    "hyperid": "^3.3.0",
     "msgpackr": "^1.11.5",
     "pino": "^9.7.0",
     "zeromq": "^6.5.0"
