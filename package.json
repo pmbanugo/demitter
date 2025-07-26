@@ -2,8 +2,11 @@
   "name": "demitter",
   "type": "module",
   "description": "Distributed Node.js Event Emitter",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "bin": {
+    "demitter-forwarder": "dist/src/cli.js"
+  },
   "scripts": {
     "build": "tsdown",
     "build:watch": "tsdown --watch",

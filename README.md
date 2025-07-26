@@ -15,6 +15,40 @@ The forwarder acts as a central message broker using ZeroMQ's XSUB-XPUB proxy pa
 
 ### Usage
 
+#### As a global CLI command:
+
+After installing the package globally:
+
+```bash
+npm install -g demitter
+# or
+pnpm install -g demitter
+```
+
+You can run the forwarder from anywhere:
+
+```bash
+# Start with default ports (XSUB: 5555, XPUB: 5556)
+demitter-forwarder
+
+# With custom ports
+XSUB_PORT=6000 XPUB_PORT=6001 demitter-forwarder
+
+# With debug logging
+LOG_LEVEL=debug demitter-forwarder
+
+# Show help
+demitter-forwarder --help
+```
+
+#### As a local CLI command:
+
+For projects with demitter as a dependency:
+
+```bash
+npx demitter-forwarder
+```
+
 #### As a standalone process:
 
 ```bash
@@ -65,6 +99,8 @@ The forwarder can be configured using environment variables:
 ### CLI Help
 
 ```bash
+demitter-forwarder --help
+# or when running locally
 node src/cli.js --help
 ```
 
