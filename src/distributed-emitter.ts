@@ -122,7 +122,6 @@ export class DistributedEmitter<
   private readonly _publisher: Publisher;
   private readonly _subscriber: Subscriber;
   private _isInitialized = false;
-  private readonly _subscribedTopics = new Set<string>();
   private readonly _originId: string;
 
   /**
@@ -176,9 +175,10 @@ export class DistributedEmitter<
    */
   private _setupEventHandlers(): void {
     // Handle when listeners are added
-    (this as any).on(Emittery.listenerAdded, (data: ListenerChangedData) => {
+    this.on(Emittery.listenerAdded, (data: ListenerChangedData) => {
       const { eventName } = data;
       // If this is the first listener for this event, subscribe to the topic
+      // TODO: if the eventName is undefined, it means they used `.onAny()` or `.offAny()`, perhaps we should consider subscribing to all topics (i.e. `this._subscriber.subscribe()` instead)
       if (
         eventName &&
         this.listenerCount(eventName as keyof EventData) === 1 &&
@@ -189,9 +189,10 @@ export class DistributedEmitter<
     });
 
     // Handle when listeners are removed
-    (this as any).on(Emittery.listenerRemoved, (data: ListenerChangedData) => {
+    this.on(Emittery.listenerRemoved, (data: ListenerChangedData) => {
       const { eventName } = data;
       // If no more listeners for this event, unsubscribe from the topic
+      // TODO: if the eventName is undefined, it means they used `.offAny()`, perhaps we should consider unsubscribing to all topics (i.e. `this._subscriber.unsubscribe()` instead)
       if (
         eventName &&
         this.listenerCount(eventName as keyof EventData) === 0 &&
@@ -212,10 +213,7 @@ export class DistributedEmitter<
     }
 
     const serializedEventName = serializeEventName(eventName);
-    if (!this._subscribedTopics.has(serializedEventName)) {
-      this._subscriber.subscribe(serializedEventName);
-      this._subscribedTopics.add(serializedEventName);
-    }
+    this._subscriber.subscribe(serializedEventName);
   }
 
   /**
@@ -228,10 +226,7 @@ export class DistributedEmitter<
     }
 
     const serializedEventName = serializeEventName(eventName);
-    if (this._subscribedTopics.has(serializedEventName)) {
-      this._subscriber.unsubscribe(serializedEventName);
-      this._subscribedTopics.delete(serializedEventName);
-    }
+    this._subscriber.unsubscribe(serializedEventName);
   }
 
   /**
@@ -285,6 +280,10 @@ export class DistributedEmitter<
 
   /**
    * Emit an event both locally and to the distributed system
+   * Locally triggers an event asynchronously, optionally with some data.
+   * Listeners are called in the order they were added, but executed concurrently.
+   *
+   * @returns A promise that resolves when all the event listeners are done. *Done* meaning executed if synchronous or resolved when an async/promise-returning function. You usually wouldn't want to wait for this, but you could for example catch possible errors. If any of the listeners throw/reject, the returned promise will be rejected with the error, but the other listeners will not be affected.
    */
   override async emit<Name extends keyof EventData>(
     eventName: Name,
@@ -319,44 +318,6 @@ export class DistributedEmitter<
   }
 
   /**
-   * Override on method to handle automatic subscription
-   */
-  override on(
-    eventName: any,
-    listener: any,
-    options?: any
-  ): UnsubscribeFunction {
-    const unsubscribe = super.on(eventName, listener, options);
-
-    // If we're initialized and this is the first listener, subscribe to topic
-    if (
-      this._isInitialized &&
-      typeof eventName === "string" &&
-      this.listenerCount(eventName as keyof EventData) === 1
-    ) {
-      this._subscribeToTopic(eventName as EventName);
-    }
-
-    return unsubscribe;
-  }
-
-  /**
-   * Override once method to handle automatic subscription
-   */
-  override once(eventName: any, predicate?: any): any {
-    // If we're initialized and this creates the first listener, subscribe to topic
-    if (
-      this._isInitialized &&
-      typeof eventName === "string" &&
-      this.listenerCount(eventName as keyof EventData) === 0
-    ) {
-      this._subscribeToTopic(eventName as EventName);
-    }
-
-    return super.once(eventName, predicate);
-  }
-
-  /**
    * Close the ZeroMQ connections and cleanup
    */
   async close(): Promise<void> {
@@ -368,9 +329,6 @@ export class DistributedEmitter<
       // Close ZeroMQ sockets
       this._publisher.close();
       this._subscriber.close();
-
-      // Clear subscribed topics
-      this._subscribedTopics.clear();
 
       // Clear all listeners
       this.clearListeners();
