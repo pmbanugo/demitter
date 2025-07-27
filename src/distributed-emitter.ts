@@ -20,6 +20,10 @@ export interface DistributedEmitterConfig {
   xsubAddress?: string;
   /** Address to connect subscriber to forwarder's Publication channel */
   xpubAddress?: string;
+  /** Port to connect publisher to forwarder's Subscription channel (if address not provided) */
+  xsubPort?: number;
+  /** Port to connect subscriber to forwarder's Publication channel (if address not provided) */
+  xpubPort?: number;
 }
 
 /**
@@ -129,18 +133,17 @@ export class DistributedEmitter<
    */
   constructor(config: DistributedEmitterConfig = {}) {
     super();
-
     const {
-      xsubAddress = process.env.XSUB_ADDRESS || "tcp://localhost:5555",
-      xpubAddress = process.env.XPUB_ADDRESS || "tcp://localhost:5556",
+      xsubPort = Number(process.env.XSUB_PORT) || 5555,
+      xpubPort = Number(process.env.XPUB_PORT) || 5556,
+      xsubAddress = process.env.XSUB_ADDRESS || `tcp://localhost:${xsubPort}`,
+      xpubAddress = process.env.XPUB_ADDRESS || `tcp://localhost:${xpubPort}`,
     } = config;
-
     this._xsubAddress = xsubAddress;
     this._xpubAddress = xpubAddress;
     this._publisher = new Publisher();
     this._subscriber = new Subscriber();
     this._originId = hyperid()();
-
     this._setupEventHandlers();
   }
 
