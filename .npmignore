@@ -1,0 +1,27 @@
+# Source files
+src/
+tsconfig.json
+tsdown.config.ts
+
+# Development files
+examples/
+miscellanous/
+video-script.md
+
+# Test files (exclude from dist)
+**/*.test.js
+**/*.test.d.ts
+**/*.test.js.map
+**/*.test.d.ts.map
+
+# Package manager files
+pnpm-lock.yaml
+pnpm-workspace.yaml
+
+# Development tools
+.vscode/
+.DS_Store
+*.log
+
+# CI/CD
+.github/
