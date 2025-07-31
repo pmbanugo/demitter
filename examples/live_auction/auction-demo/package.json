@@ -1,0 +1,27 @@
+{
+  "name": "live-auction-demo",
+  "version": "1.0.0",
+  "description": "Distributed live auction terminal demo using demitter",
+  "main": "src/auction-controller.js",
+  "type": "module",
+  "scripts": {
+    "start:forwarder": "demitter-forwarder",
+    "start:controller": "node src/auction-controller.js",
+    "start:bidder": "node src/bidder-process.js",
+    "start:spectator": "node src/spectator-dashboard.js",
+    "cleanup": "sh scripts/cleanup.sh"
+  },
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.10.3",
+    "chalk": "^5.3.0",
+    "cli-table3": "^0.6.3",
+    "demitter": "workspace:*",
+    "figures": "^5.0.0",
+    "hyperid": "^3.0.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

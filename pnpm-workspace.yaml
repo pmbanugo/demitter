@@ -1,3 +1,6 @@
+packages:
+  - "examples/live_auction/auction-demo"
+
 onlyBuiltDependencies:
   - msgpackr-extract
   - zeromq

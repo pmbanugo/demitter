@@ -1,7 +1,12 @@
 import { defineConfig } from "tsdown";
 
 export default defineConfig({
-  entry: ["./src/**/*.ts", "./examples/**/*.ts"],
+  entry: [
+    "./src/**/*.ts",
+    "./src/cli.js",
+    "./examples/basic-usage.ts",
+    "./examples/error-handling.ts",
+  ],
   outDir: "./dist",
   format: ["esm"],
   dts: true,
