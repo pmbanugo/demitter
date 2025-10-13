@@ -2,6 +2,8 @@
 
 Extend your events across processes, threads, and machines. Demitter brings the familiar [Node.js event API (via emittery)](https://github.com/sindresorhus/emittery) API to distributed systems, enabling real-time event communication between multiple Node.js processes with near-zero configuration.
 
+[![If you get stuck, talk to our documentation agent at DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/pmbanugo/demitter)
+
 ## 🎬 See It In Action
 
 [![Watch the live auction demo](https://cdn.hashnode.com/res/hashnode/image/upload/v1753995587144/e68de3ad-8d72-4c15-9674-907de936d572.gif?auto=format,compress&gif-q=60&format=webm)](https://www.youtube.com/watch?v=LqQShQ9-dsk)
